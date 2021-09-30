@@ -50,19 +50,20 @@ def p_criartabela(p):
 	print("Criar Tabela")
 
 def p_inserirdados(p):
-  '''inserirdados :: INSERT INTO ID VALUES ABREPARENTES dadoinserido FECHAPARENTES'''
+  '''inserirdados : INSERT INTO ID VALUES ABREPARENTES dadoinserido FECHAPARENTES'''
+  print("inserirdados")
 
 def p_dadoinserido(p):
-  '''dadosinseridos : tipo VIRGULA ID*
-				 |ID VIRGULA tipo*
-				 |ID'''
+  '''dadosinseridos : tipo VIRGULA ID
+				              | ID VIRGULA tipo
+				              | ID'''
 
 def p_tipo(p):
-  '''tipo : INT '''
-#        | VARCHAR ABREPARENTES INTEIRO FECHAPARENTES
-#        | NUMBER
-#        | DATETIME
-#        | FLOAT'''
+  '''tipo : INT
+            | VARCHAR ABREPARENTES INTEIRO FECHAPARENTES
+            | NUMBER
+            | DATETIME
+            | FLOAT'''
   print("tipo")
 
 def p_sufixotable(p):
@@ -87,7 +88,8 @@ teste = """ CREATE TABLE TB_CLIENTE (
              CD_CLIENTE INT NOT NULL PRIMARY KEY,
              NM_CLIENTE INT NOT NULL,
              CPF INT NULL,
-             DT_INCLUSAO INT NOT NULL )"""
+             DT_INCLUSAO INT NOT NULL )
+             INSERT INTO TB_CLIENTE VALUES(1)"""
 #teste = "Select VALOR TABLE.LINHA @ SET 25 * / - + % < > = >= <="
 
 #lexer.input(teste)
