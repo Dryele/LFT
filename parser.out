@@ -1,0 +1,343 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    ALTER
+    AS
+    BEGIN
+    BY
+    CLOSE
+    DATEPART
+    DEALLOCATE
+    DECLARE
+    DELETE
+    DISTINCT
+    DIV
+    DO
+    ELSE
+    END
+    EXEC
+    FETCH
+    FOR
+    FROM
+    GROUP
+    HAVING
+    IF
+    IGUAL
+    INNER
+    INSERT
+    INTO
+    ISNULL
+    JOIN
+    LEFT
+    MAIORIGUAL
+    MAIORQ
+    MENORIGUAL
+    MENORQ
+    MUL
+    NUMERO
+    ON
+    OPEN
+    OR
+    ORDER
+    OUTPUT
+    PERCE
+    PRINT
+    PROCEDURE
+    RIGHT
+    SELECT
+    SET
+    SOMA
+    SUB
+    UPDATE
+    VALUES
+    WHERE
+    WHILE
+
+Grammar
+
+Rule 0     S' -> inicio
+Rule 1     inicio -> criartabela
+Rule 2     criartabela -> CREATE TABLE ID ABREPARENTESES tabelacolunas FECHAPARENTESES
+Rule 3     tipo -> INT
+Rule 4     sufixotable -> NOT NULL
+Rule 5     sufixotable -> NULL
+Rule 6     sufixotable -> NOT NULL PRIMARY KEY
+Rule 7     tabelacolunas -> ID tipo sufixotable
+Rule 8     tabelacolunas -> ID tipo
+Rule 9     tabelacolunas -> ID tipo sufixotable VIRGULA tabelacolunas
+Rule 10    tabelacolunas -> ID tipo VIRGULA tabelacolunas
+
+Terminals, with rules where they appear
+
+ABREPARENTESES       : 2
+ALTER                : 
+AS                   : 
+BEGIN                : 
+BY                   : 
+CLOSE                : 
+CREATE               : 2
+DATEPART             : 
+DEALLOCATE           : 
+DECLARE              : 
+DELETE               : 
+DISTINCT             : 
+DIV                  : 
+DO                   : 
+ELSE                 : 
+END                  : 
+EXEC                 : 
+FECHAPARENTESES      : 2
+FETCH                : 
+FOR                  : 
+FROM                 : 
+GROUP                : 
+HAVING               : 
+ID                   : 2 7 8 9 10
+IF                   : 
+IGUAL                : 
+INNER                : 
+INSERT               : 
+INT                  : 3
+INTO                 : 
+ISNULL               : 
+JOIN                 : 
+KEY                  : 6
+LEFT                 : 
+MAIORIGUAL           : 
+MAIORQ               : 
+MENORIGUAL           : 
+MENORQ               : 
+MUL                  : 
+NOT                  : 4 6
+NULL                 : 4 5 6
+NUMERO               : 
+ON                   : 
+OPEN                 : 
+OR                   : 
+ORDER                : 
+OUTPUT               : 
+PERCE                : 
+PRIMARY              : 6
+PRINT                : 
+PROCEDURE            : 
+RIGHT                : 
+SELECT               : 
+SET                  : 
+SOMA                 : 
+SUB                  : 
+TABLE                : 2
+UPDATE               : 
+VALUES               : 
+VIRGULA              : 9 10
+WHERE                : 
+WHILE                : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+criartabela          : 1
+inicio               : 0
+sufixotable          : 7 9
+tabelacolunas        : 2 9 10
+tipo                 : 7 8 9 10
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . inicio
+    (1) inicio -> . criartabela
+    (2) criartabela -> . CREATE TABLE ID ABREPARENTESES tabelacolunas FECHAPARENTESES
+
+    CREATE          shift and go to state 3
+
+    inicio                         shift and go to state 1
+    criartabela                    shift and go to state 2
+
+state 1
+
+    (0) S' -> inicio .
+
+
+
+state 2
+
+    (1) inicio -> criartabela .
+
+    $end            reduce using rule 1 (inicio -> criartabela .)
+
+
+state 3
+
+    (2) criartabela -> CREATE . TABLE ID ABREPARENTESES tabelacolunas FECHAPARENTESES
+
+    TABLE           shift and go to state 4
+
+
+state 4
+
+    (2) criartabela -> CREATE TABLE . ID ABREPARENTESES tabelacolunas FECHAPARENTESES
+
+    ID              shift and go to state 5
+
+
+state 5
+
+    (2) criartabela -> CREATE TABLE ID . ABREPARENTESES tabelacolunas FECHAPARENTESES
+
+    ABREPARENTESES  shift and go to state 6
+
+
+state 6
+
+    (2) criartabela -> CREATE TABLE ID ABREPARENTESES . tabelacolunas FECHAPARENTESES
+    (7) tabelacolunas -> . ID tipo sufixotable
+    (8) tabelacolunas -> . ID tipo
+    (9) tabelacolunas -> . ID tipo sufixotable VIRGULA tabelacolunas
+    (10) tabelacolunas -> . ID tipo VIRGULA tabelacolunas
+
+    ID              shift and go to state 7
+
+    tabelacolunas                  shift and go to state 8
+
+state 7
+
+    (7) tabelacolunas -> ID . tipo sufixotable
+    (8) tabelacolunas -> ID . tipo
+    (9) tabelacolunas -> ID . tipo sufixotable VIRGULA tabelacolunas
+    (10) tabelacolunas -> ID . tipo VIRGULA tabelacolunas
+    (3) tipo -> . INT
+
+    INT             shift and go to state 10
+
+    tipo                           shift and go to state 9
+
+state 8
+
+    (2) criartabela -> CREATE TABLE ID ABREPARENTESES tabelacolunas . FECHAPARENTESES
+
+    FECHAPARENTESES shift and go to state 11
+
+
+state 9
+
+    (7) tabelacolunas -> ID tipo . sufixotable
+    (8) tabelacolunas -> ID tipo .
+    (9) tabelacolunas -> ID tipo . sufixotable VIRGULA tabelacolunas
+    (10) tabelacolunas -> ID tipo . VIRGULA tabelacolunas
+    (4) sufixotable -> . NOT NULL
+    (5) sufixotable -> . NULL
+    (6) sufixotable -> . NOT NULL PRIMARY KEY
+
+    FECHAPARENTESES reduce using rule 8 (tabelacolunas -> ID tipo .)
+    VIRGULA         shift and go to state 13
+    NOT             shift and go to state 14
+    NULL            shift and go to state 15
+
+    sufixotable                    shift and go to state 12
+
+state 10
+
+    (3) tipo -> INT .
+
+    VIRGULA         reduce using rule 3 (tipo -> INT .)
+    NOT             reduce using rule 3 (tipo -> INT .)
+    NULL            reduce using rule 3 (tipo -> INT .)
+    FECHAPARENTESES reduce using rule 3 (tipo -> INT .)
+
+
+state 11
+
+    (2) criartabela -> CREATE TABLE ID ABREPARENTESES tabelacolunas FECHAPARENTESES .
+
+    $end            reduce using rule 2 (criartabela -> CREATE TABLE ID ABREPARENTESES tabelacolunas FECHAPARENTESES .)
+
+
+state 12
+
+    (7) tabelacolunas -> ID tipo sufixotable .
+    (9) tabelacolunas -> ID tipo sufixotable . VIRGULA tabelacolunas
+
+    FECHAPARENTESES reduce using rule 7 (tabelacolunas -> ID tipo sufixotable .)
+    VIRGULA         shift and go to state 16
+
+
+state 13
+
+    (10) tabelacolunas -> ID tipo VIRGULA . tabelacolunas
+    (7) tabelacolunas -> . ID tipo sufixotable
+    (8) tabelacolunas -> . ID tipo
+    (9) tabelacolunas -> . ID tipo sufixotable VIRGULA tabelacolunas
+    (10) tabelacolunas -> . ID tipo VIRGULA tabelacolunas
+
+    ID              shift and go to state 7
+
+    tabelacolunas                  shift and go to state 17
+
+state 14
+
+    (4) sufixotable -> NOT . NULL
+    (6) sufixotable -> NOT . NULL PRIMARY KEY
+
+    NULL            shift and go to state 18
+
+
+state 15
+
+    (5) sufixotable -> NULL .
+
+    VIRGULA         reduce using rule 5 (sufixotable -> NULL .)
+    FECHAPARENTESES reduce using rule 5 (sufixotable -> NULL .)
+
+
+state 16
+
+    (9) tabelacolunas -> ID tipo sufixotable VIRGULA . tabelacolunas
+    (7) tabelacolunas -> . ID tipo sufixotable
+    (8) tabelacolunas -> . ID tipo
+    (9) tabelacolunas -> . ID tipo sufixotable VIRGULA tabelacolunas
+    (10) tabelacolunas -> . ID tipo VIRGULA tabelacolunas
+
+    ID              shift and go to state 7
+
+    tabelacolunas                  shift and go to state 19
+
+state 17
+
+    (10) tabelacolunas -> ID tipo VIRGULA tabelacolunas .
+
+    FECHAPARENTESES reduce using rule 10 (tabelacolunas -> ID tipo VIRGULA tabelacolunas .)
+
+
+state 18
+
+    (4) sufixotable -> NOT NULL .
+    (6) sufixotable -> NOT NULL . PRIMARY KEY
+
+    VIRGULA         reduce using rule 4 (sufixotable -> NOT NULL .)
+    FECHAPARENTESES reduce using rule 4 (sufixotable -> NOT NULL .)
+    PRIMARY         shift and go to state 20
+
+
+state 19
+
+    (9) tabelacolunas -> ID tipo sufixotable VIRGULA tabelacolunas .
+
+    FECHAPARENTESES reduce using rule 9 (tabelacolunas -> ID tipo sufixotable VIRGULA tabelacolunas .)
+
+
+state 20
+
+    (6) sufixotable -> NOT NULL PRIMARY . KEY
+
+    KEY             shift and go to state 21
+
+
+state 21
+
+    (6) sufixotable -> NOT NULL PRIMARY KEY .
+
+    VIRGULA         reduce using rule 6 (sufixotable -> NOT NULL PRIMARY KEY .)
+    FECHAPARENTESES reduce using rule 6 (sufixotable -> NOT NULL PRIMARY KEY .)
+
