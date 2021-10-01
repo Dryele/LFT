@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'ABREPARENTESES ALTER AS BEGIN BY CLOSE CREATE DATEPART DEALLOCATE DECLARE DELETE DISTINCT DIV DO ELSE END EXEC FECHAPARENTESES FETCH FOR FROM GROUP HAVING ID IF IGUAL INNER INSERT INT INTO ISNULL JOIN KEY LEFT MAIORIGUAL MAIORQ MENORIGUAL MENORQ MUL NOT NULL NUMERO ON OPEN OR ORDER OUTPUT PERCE PRIMARY PRINT PROCEDURE RIGHT SELECT SET SOMA SUB TABLE UPDATE VALUES VIRGULA WHERE WHILEinicio : criartabelacriartabela : CREATE TABLE ID ABREPARENTESES tabelacolunas FECHAPARENTESEStipo : INT sufixotable : NOT NULL\n    | NULL\n    | NOT NULL PRIMARY KEYtabelacolunas : ID tipo sufixotable\n         | ID tipo            \n         | ID tipo sufixotable VIRGULA tabelacolunas\n         | ID tipo VIRGULA tabelacolunas'
+_lr_signature = 'ABREPARENTESES ALTER AS BEGIN BY CLOSE CREATE DATEPART DATETIME DEALLOCATE DECLARE DELETE DISTINCT DIV DO ELSE END EXEC FECHAPARENTESES FETCH FOR FROM GROUP HAVING ID IF IGUAL INNER INSERT INT INTO ISNULL JOIN KEY LEFT MAIORIGUAL MAIORQ MENORIGUAL MENORQ MUL NOT NULL NUMBER NUMERO NUMFLOAT NUMINTEIRO ON OPEN OR ORDER OUTPUT PERCE PRIMARY PRINT PROCEDURE RIGHT SELECT SET SOMA STRING SUB TABLE UPDATE VALUES VARCHAR VIRGULA WHERE WHILEinicio : criartabela \n              | inserirdados\n              | criartabela inicio\n              | inserirdados inicio\n  literal : NUMFLOAT \n               | NUMINTEIRO\n               | STRING \n  criartabela : CREATE TABLE ID ABREPARENTESES tabelacolunas FECHAPARENTESESinserirdados : INSERT INTO ID VALUES ABREPARENTESES dadosinseridos FECHAPARENTESESdadosinseridos : literal \n\t\t\t\t              | literal VIRGULA                dadosinseridostipo : INT\n            | VARCHAR ABREPARENTESES NUMINTEIRO FECHAPARENTESES\n            | NUMBER\n            | DATETIME\n            | NUMFLOATsufixotable : NOT NULL\n    | NULL\n    | NOT NULL PRIMARY KEYtabelacolunas : ID tipo sufixotable\n         | ID tipo            \n         | ID tipo sufixotable VIRGULA tabelacolunas\n         | ID tipo VIRGULA tabelacolunas'
     
-_lr_action_items = {'CREATE':([0,],[3,]),'$end':([1,2,11,],[0,-1,-2,]),'TABLE':([3,],[4,]),'ID':([4,6,13,16,],[5,7,7,7,]),'ABREPARENTESES':([5,],[6,]),'INT':([7,],[10,]),'FECHAPARENTESES':([8,9,10,12,15,17,18,19,21,],[11,-8,-3,-7,-5,-10,-4,-9,-6,]),'VIRGULA':([9,10,12,15,18,21,],[13,-3,16,-5,-4,-6,]),'NOT':([9,10,],[14,-3,]),'NULL':([9,10,14,],[15,-3,18,]),'PRIMARY':([18,],[20,]),'KEY':([20,],[21,]),}
+_lr_action_items = {'CREATE':([0,2,3,23,34,],[4,4,4,-8,-9,]),'INSERT':([0,2,3,23,34,],[5,5,5,-8,-9,]),'$end':([1,2,3,6,7,23,34,],[0,-1,-2,-3,-4,-8,-9,]),'TABLE':([4,],[8,]),'INTO':([5,],[9,]),'ID':([8,9,12,30,36,],[10,11,14,14,14,]),'ABREPARENTESES':([10,13,19,],[12,16,33,]),'VALUES':([11,],[13,]),'INT':([14,],[18,]),'VARCHAR':([14,],[19,]),'NUMBER':([14,],[20,]),'DATETIME':([14,],[21,]),'NUMFLOAT':([14,16,35,],[22,26,26,]),'FECHAPARENTESES':([15,17,18,20,21,22,24,25,26,27,28,29,32,37,38,39,40,41,43,44,],[23,-21,-12,-14,-15,-16,34,-10,-5,-6,-7,-20,-18,-23,-17,43,-11,-22,-13,-19,]),'NUMINTEIRO':([16,33,35,],[27,39,27,]),'STRING':([16,35,],[28,28,]),'VIRGULA':([17,18,20,21,22,25,26,27,28,29,32,38,43,44,],[30,-12,-14,-15,-16,35,-5,-6,-7,36,-18,-17,-13,-19,]),'NOT':([17,18,20,21,22,43,],[31,-12,-14,-15,-16,-13,]),'NULL':([17,18,20,21,22,31,43,],[32,-12,-14,-15,-16,38,-13,]),'PRIMARY':([38,],[42,]),'KEY':([42,],[44,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'inicio':([0,],[1,]),'criartabela':([0,],[2,]),'tabelacolunas':([6,13,16,],[8,17,19,]),'tipo':([7,],[9,]),'sufixotable':([9,],[12,]),}
+_lr_goto_items = {'inicio':([0,2,3,],[1,6,7,]),'criartabela':([0,2,3,],[2,2,2,]),'inserirdados':([0,2,3,],[3,3,3,]),'tabelacolunas':([12,30,36,],[15,37,41,]),'tipo':([14,],[17,]),'dadosinseridos':([16,35,],[24,40,]),'literal':([16,35,],[25,25,]),'sufixotable':([17,],[29,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,14 +27,27 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> inicio","S'",1,None,None,None),
-  ('inicio -> criartabela','inicio',1,'p_inicio','main.py',45),
-  ('criartabela -> CREATE TABLE ID ABREPARENTESES tabelacolunas FECHAPARENTESES','criartabela',6,'p_criartabela','main.py',49),
-  ('tipo -> INT','tipo',1,'p_tipo','main.py',53),
-  ('sufixotable -> NOT NULL','sufixotable',2,'p_sufixotable','main.py',61),
-  ('sufixotable -> NULL','sufixotable',1,'p_sufixotable','main.py',62),
-  ('sufixotable -> NOT NULL PRIMARY KEY','sufixotable',4,'p_sufixotable','main.py',63),
-  ('tabelacolunas -> ID tipo sufixotable','tabelacolunas',3,'p_tabelacolunas','main.py',68),
-  ('tabelacolunas -> ID tipo','tabelacolunas',2,'p_tabelacolunas','main.py',69),
-  ('tabelacolunas -> ID tipo sufixotable VIRGULA tabelacolunas','tabelacolunas',5,'p_tabelacolunas','main.py',70),
-  ('tabelacolunas -> ID tipo VIRGULA tabelacolunas','tabelacolunas',4,'p_tabelacolunas','main.py',71),
+  ('inicio -> criartabela','inicio',1,'p_inicio','main.py',54),
+  ('inicio -> inserirdados','inicio',1,'p_inicio','main.py',55),
+  ('inicio -> criartabela inicio','inicio',2,'p_inicio','main.py',56),
+  ('inicio -> inserirdados inicio','inicio',2,'p_inicio','main.py',57),
+  ('literal -> NUMFLOAT','literal',1,'p_literal','main.py',62),
+  ('literal -> NUMINTEIRO','literal',1,'p_literal','main.py',63),
+  ('literal -> STRING','literal',1,'p_literal','main.py',64),
+  ('criartabela -> CREATE TABLE ID ABREPARENTESES tabelacolunas FECHAPARENTESES','criartabela',6,'p_criartabela','main.py',68),
+  ('inserirdados -> INSERT INTO ID VALUES ABREPARENTESES dadosinseridos FECHAPARENTESES','inserirdados',7,'p_inserirdados','main.py',72),
+  ('dadosinseridos -> literal','dadosinseridos',1,'p_dadosinseridos','main.py',76),
+  ('dadosinseridos -> literal VIRGULA dadosinseridos','dadosinseridos',3,'p_dadosinseridos','main.py',77),
+  ('tipo -> INT','tipo',1,'p_tipo','main.py',80),
+  ('tipo -> VARCHAR ABREPARENTESES NUMINTEIRO FECHAPARENTESES','tipo',4,'p_tipo','main.py',81),
+  ('tipo -> NUMBER','tipo',1,'p_tipo','main.py',82),
+  ('tipo -> DATETIME','tipo',1,'p_tipo','main.py',83),
+  ('tipo -> NUMFLOAT','tipo',1,'p_tipo','main.py',84),
+  ('sufixotable -> NOT NULL','sufixotable',2,'p_sufixotable','main.py',88),
+  ('sufixotable -> NULL','sufixotable',1,'p_sufixotable','main.py',89),
+  ('sufixotable -> NOT NULL PRIMARY KEY','sufixotable',4,'p_sufixotable','main.py',90),
+  ('tabelacolunas -> ID tipo sufixotable','tabelacolunas',3,'p_tabelacolunas','main.py',95),
+  ('tabelacolunas -> ID tipo','tabelacolunas',2,'p_tabelacolunas','main.py',96),
+  ('tabelacolunas -> ID tipo sufixotable VIRGULA tabelacolunas','tabelacolunas',5,'p_tabelacolunas','main.py',97),
+  ('tabelacolunas -> ID tipo VIRGULA tabelacolunas','tabelacolunas',4,'p_tabelacolunas','main.py',98),
 ]
