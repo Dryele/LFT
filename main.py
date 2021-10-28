@@ -4,7 +4,7 @@ import ply.yacc as yacc
 # colocar todas as palavras reservadas da linguagem aqui! 
 reserved = {'PRIMARY': 'PRIMARY', 'KEY' : 'KEY', 'INT':'INT','SELECT':'SELECT', 'INSERT':'INSERT','INTO':'INTO', 'UPDATE':'UPDATE','DELETE':'DELETE', 'WHERE':'WHERE','ORDER':'ORDER','BY':'BY', 'GROUP':'GROUP', 'HAVING':'HAVING','FROM':'FROM', 'VALUES':'VALUES', 'SET':'SET', 'CREATE':'CREATE', 'TABLE':'TABLE',  'ALTER':'ALTER', 'DECLARE':'DECLARE', 'PROCEDURE':'PROCEDURE', 'AS':'AS', 'OR':'OR', 'BEGIN':'BEGIN', 'IF':'IF', 'SET':'SET', 'END':'END', 'OUTPUT':'OUTPUT', 'PRINT':'PRINT','EXEC':'EXEC', 'ISNULL':'ISNULL', 'FOR':'FOR', 'LEFT':'LEFT', 'JOIN':'JOIN', 'ON':'ON','OPEN':'OPEN', 'FETCH':'FETCH','WHILE':'WHILE','ELSE':'ELSE', 'DEALLOCATE':'DEALLOCATE', 'DO':'DO', 'CLOSE':'CLOSE', 'NOT':'NOT', 'NULL':'NULL', 'INNER':'INNER','RIGHT':'RIGHT','DISTINCT':'DISTINCT','DATEPART':'DATEPART','ISNULL':'ISNULL','VARCHAR':'VARCHAR','DATETIME':'DATETIME','NUMERIC':'NUMERIC', 'SUM':'SUM'}
 
-tokens = ['ID', 'NUMERO', 'MUL', 'DIV', 'SOMA', 'SUB', 'PERCE','MENORQ','MAIORQ', 'IGUAL', 'MAIORIGUAL', 'MENORIGUAL','ABREPARENTESES','FECHAPARENTESES','VIRGULA','NUMFLOAT','NUMINTEIRO', 'STRING']+list(reserved.values())
+tokens = ['ID', 'NUMERO', 'MUL', 'DIV', 'SOMA', 'SUB', 'PERCE','MENORQ','MAIORQ', 'IGUAL', 'MAIORIGUAL', 'MENORIGUAL','ABREPARENTESES','FECHAPARENTESES','VIRGULA','NUMFLOAT','NUMINTEIRO', 'STRING', 'ZERO']+list(reserved.values())
 
 t_MUL = r'\*'
 t_DIV =r'/'
@@ -19,6 +19,8 @@ t_MENORIGUAL =r'<='
 t_ABREPARENTESES =r'\('
 t_FECHAPARENTESES =r'\)'
 t_VIRGULA =r','
+t_ZERO = r'0'
+
 
 t_ignore=" \t\n"
 #reconhcer identificador, inicio de nomes e simbolos da linguagem
@@ -100,8 +102,8 @@ def p_tabelacolunas(p):
 def p_comando(p):
   '''comando : declarevar
              | select 
-             | 0
 		         | open
+             | inserirdados
 		         | close
 		         | dadossemtipo
 		         | deallocate
@@ -110,31 +112,33 @@ def p_comando(p):
 		         | listtypedid'''
 
 def p_declarevar(p):
-  '''declarevar : DECLARE ID tipo 
-                  | DECLARE ID tipo VIRGULA declarevar'''
-
+  '''declarevar : DECLARE listtypedid'''
+            
 def p_comandos(p):
   '''comandos : comando
                 | comando comandos'''
 
 def p_select(p):
-  '''select : SELECT listids FROM ID 
+  '''select : SELECT listtypedid FROM ID 
               | SELECT MUL FROM ID 
               | SELECT SUM ABREPARENTESES ID FECHAPARENTESES FROM ID WHERE ID IGUAL ID'''
 
 def p_deallocate(p):
   '''deallocate : DEALLOCATE ID'''
 
-def p_listtypeide(p):
-  '''listtypedid :  ID tipo 
-			 | ID tipo VIRGULA listtypedid'''
+def p_listtypeid(p):
+  '''listtypedid : ID tipo 
+			             | ID tipo VIRGULA listtypedid'''
 
 def p_dadossemtipo(p):
   '''dadossemtipo : ID
 			              | ID VIRGULA dadossemtipo'''
 
 def p_while(p):
-  '''while : WHILE ABREPARENTES ID IGUAL comandos FECHAPARENTES comandos'''
+  '''while : WHILE ABREPARENTESES ID IGUAL ZERO FECHAPARENTESES comandos'''
+
+def p_procedure(p):
+  '''procedure : CREATE OR ALTER PROCEDURE ID AS begin   comandos close deallocate END '''
 
 def p_open(p):
   '''open : OPEN ID'''
@@ -146,10 +150,11 @@ def p_fetch(p):
   '''fetch : FETCH ID INTO dadossemtipo'''
 
 def p_begin(p):
-  '''begin : BEGIN comandos END'''
+  '''begin : BEGIN comandos END
+             | BEGIN set comandos END '''
 
 def p_set(p):
-  '''set : SET ID IGUAL ABREPARENTES select FECHAPARENTES'''
+  '''set : SET ID IGUAL ABREPARENTESES select FECHAPARENTESES'''
 
 def p_if(p):
   '''if : ID IGUAL STRING
@@ -157,7 +162,7 @@ def p_if(p):
 	        | ID IGUAL NUMFLOAT'''
 
 def p_exec(p):
-  '''exec : EXEC dadossemtipo OUTPUT'''
+  '''exec : EXEC ID dadossemtipo OUTPUT'''
 
 lexer = lex.lex()
 teste = """ CREATE TABLE TB_CLIENTE (
