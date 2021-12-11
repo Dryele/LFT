@@ -1,5 +1,4 @@
 import ply.yacc as yacc
-
 from ExpressionLanguageLex import tokens
 from SintaxeAbstrata import *
 
@@ -15,21 +14,26 @@ def p_inicio(p):
 def p_literal(p):
   '''literal : NUMFLOAT 
                | NUMINTEIRO
-               | STRING 
-  '''
+               | STRING '''
 
 def p_criartabela(p):
-	'''criartabela : CREATE TABLE ID ABREPARENTESES tabelacolunas FECHAPARENTESES'''
-	print("Criar Tabela")
+  '''criartabela : CREATE TABLE ID ABREPARENTESES tabelacolunas FECHAPARENTESES'''
+  p[0] = CriaTabela(p[3], p[5])
+  # print("Criar Tabela")
 
 def p_inserirdados(p):
   '''inserirdados : INSERT INTO ID VALUES ABREPARENTESES dadosinseridos FECHAPARENTESES'''
-  print("inserirdados")
+  p[0] = InserirDados(p[3], p[6])
+  #print("inserirdados")
 
-def p_dadosinseridos(p):
-  '''dadosinseridos : literal 
-				              | literal VIRGULA dadosinseridos'''
-
+def p_dadosinseridosum(p):
+  '''dadosinseridos : literal '''
+  p[0] = DadosInseridosUm(p[1])
+  
+def p_dadosinseridosdois(p):
+  '''dadosinseridos : literal VIRGULA dadosinseridos'''
+  p[0] = DadosInseridosUm(p[1], p[3])
+  
 def p_tipo(p):
   '''tipo : INT
             | VARCHAR ABREPARENTESES NUMINTEIRO FECHAPARENTESES
@@ -65,6 +69,7 @@ def p_comando(p):
 
 def p_declarevar(p):
   '''declarevar : DECLARE listtypedid'''
+  p[0] = Declarevar(p[2])
             
 def p_comandos(p):
   '''comandos : comando
@@ -77,6 +82,7 @@ def p_select(p):
 
 def p_deallocate(p):
   '''deallocate : DEALLOCATE ID'''
+  p[0] = Deallocate(p[2])
 
 def p_listtypeid(p):
   '''listtypedid : ID tipo 
@@ -88,18 +94,23 @@ def p_dadossemtipo(p):
 
 def p_while(p):
   '''while : WHILE ABREPARENTESES ID IGUAL ZERO FECHAPARENTESES comandos'''
+  p[0] = While(p[3],p[7])
 
 def p_procedure(p):
-  '''procedure : CREATE OR ALTER PROCEDURE ID AS begin   comandos close deallocate END '''
+  '''procedure : CREATE OR ALTER PROCEDURE ID AS begin comandos close deallocate END '''
+  p[0] = Procedure(p[5], p[7], p[8], p[9], p[10])
 
 def p_open(p):
   '''open : OPEN ID'''
+  p[0] = Open(p[3])
 
 def p_close(p):
   '''close : CLOSE ID''' 
+  p[0] = Close(p[3])
 
 def p_fetch(p):
   '''fetch : FETCH ID INTO dadossemtipo'''
+  p[0] = Open(p[2], p[4])
 
 def p_begin(p):
   '''begin : BEGIN comandos END
@@ -107,6 +118,7 @@ def p_begin(p):
 
 def p_set(p):
   '''set : SET ID IGUAL ABREPARENTESES select FECHAPARENTESES'''
+  p[0] = Set(p[2], p[3])
 
 def p_if(p):
   '''if : ID IGUAL STRING
@@ -115,10 +127,24 @@ def p_if(p):
 
 def p_exec(p):
   '''exec : EXEC ID dadossemtipo OUTPUT'''
+  p[0] = Exec(p[2], p[3])
 
 
+def p_error(p):
+  print('Error')
+
+parser = yacc.yacc()
+
+while True:
+ try:
+     s = input('calc > ')
+ except EOFError:
+     break
+ if not s: continue
+ result = parser.parse(s)
+ print(result)
 
 
 #lexer.input(teste)
-passer = yacc.yacc(debug=True)
-passer.parse(teste)
+#passer = yacc.yacc(debug=True)
+#passer.parse(teste)
