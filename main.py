@@ -1,5 +1,8 @@
 import ExpressionLanguageLex
 import ExpressionLanguageParser
+import SintaxeAbstrata
+import VisitorPrinter
+
 
 #teste = """ CREATE TABLE TB_CLIENTE (
  #            CD_CLIENTE INT NOT NULL PRIMARY KEY,

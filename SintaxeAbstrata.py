@@ -21,12 +21,7 @@ class InserirDados(metaclass=ABCMeta):
     def accept(self, Visitor):
         pass
 
-class DadosInseridosUm(metaclass=ABCMeta):
-    @abstractmethod
-    def accept(self, Visitor):
-        pass
-
-class DadosInseridosDois(metaclass=ABCMeta):
+class DadosInseridos(metaclass=ABCMeta):
     @abstractmethod
     def accept(self, Visitor):
         pass
@@ -36,8 +31,7 @@ class Tipo(metaclass=ABCMeta):
     def accept(self, Visitor):
         pass
 
-
-class SufixoTable(metaclass=ABCMeta):
+class Sufixo(metaclass=ABCMeta):
     @abstractmethod
     def accept(self, Visitor):
         pass
@@ -52,37 +46,7 @@ class Comando(metaclass=ABCMeta):
     def accept(self, Visitor):
         pass
 
-class DeclareVar(metaclass=ABCMeta):
-    @abstractmethod
-    def accept(self, Visitor):
-        pass
-
 class Comandos(metaclass=ABCMeta):
-    @abstractmethod
-    def accept(self, Visitor):
-        pass
-
-class Select(metaclass=ABCMeta):
-    @abstractmethod
-    def accept(self, Visitor):
-        pass
-
-class Deallocate(metaclass=ABCMeta):
-    @abstractmethod
-    def accept(self, Visitor):
-        pass
-
-class ListTypeid(metaclass=ABCMeta):
-    @abstractmethod
-    def accept(self, Visitor):
-        pass
-      
-class DadosSemTipo(metaclass=ABCMeta):
-    @abstractmethod
-    def accept(self, Visitor):
-        pass
-
-class While(metaclass=ABCMeta):
     @abstractmethod
     def accept(self, Visitor):
         pass
@@ -92,22 +56,7 @@ class Procedure(metaclass=ABCMeta):
     def accept(self, Visitor):
         pass
 
-class Open(metaclass=ABCMeta):
-    @abstractmethod
-    def accept(self, Visitor):
-        pass
-
-class Close(metaclass=ABCMeta):
-    @abstractmethod
-    def accept(self, Visitor):
-        pass
-
 class Fetch(metaclass=ABCMeta):
-    @abstractmethod
-    def accept(self, Visitor):
-        pass
-
-class Begin(metaclass=ABCMeta):
     @abstractmethod
     def accept(self, Visitor):
         pass
@@ -117,29 +66,29 @@ class Set(metaclass=ABCMeta):
     def accept(self, Visitor):
         pass
 
-class If(metaclass=ABCMeta):
-    @abstractmethod
-    def accept(self, Visitor):
-        pass
-
 class Exec(metaclass=ABCMeta):
     @abstractmethod
     def accept(self, Visitor):
         pass
-
-
-class CriaTabelaInicio(Inicio):
-    def __init__(self, criatabela1):
-        self.criatabela1 = criatabela1
+  
+class ListTypeId(metaclass=ABCMeta):
+    @abstractmethod
     def accept(self, Visitor):
-       Visitor.visitCriaTabelaInicio(self)
+        pass
 
-class InserirDadosInicio(Inicio):
-    def __init__(self, inseredados):
-      self.inseredados = inseredados
+class ComposicaoCriarTabela(Inicio):
+    def __init__(self, criarTabela, composicaoCriarTabela):
+        self.criarTabela = criarTabela
+        self.composicaoCriarTabela = composicaoCriarTabela
     def accept(self, Visitor):
-       Visitor.visitInserirDadosInicio(self)
+       Visitor.visitComposicaoCriarTabela(self)
 
+class ComposicaoInserirDados(Inicio):
+    def __init__(self, inserirDados, composicaoInserirDados):
+      self.inserirDados = inserirDados
+      self.composicaoInserirDados = composicaoInserirDados
+    def accept(self, Visitor):
+       Visitor.visitComposicaoInserirDados(self)
 
 class CriaTabela(CriarTabela):
     def __init__(self, ID, tabelacolunas):
@@ -155,37 +104,66 @@ class InserirDados(InserirDados):
     def accept(self, Visitor):
        Visitor.visitInserirDados(self)
 
-class DadosInseridosUm(DadosInseridosUm):
-    def __init__(self, literal):
-        self.literal = literal
+class ComposicaoDadosInseridos(DadosInseridos):
+    def __init__(self, literal, ComposicaoDadosInseridos):
+      self.literal = literal
+      self.ComposicaoDadosInseridos = ComposicaoDadosInseridos
     def accept(self, Visitor):
-       Visitor.visitDadosInseridosUm(self)
+       Visitor.visitComposicaoDadosInseridos(self)
 
-class DadosInseridosDois(DadosInseridosDois):
-    def __init__(self, literal, dadosinseridos):
-        self.literal = literal
-        self.dadosinseridos = dadosinseridos
-    def accept(self, Visitor):
-       Visitor.visitDadosInseridosDois(self)
-       
-class DeclareVar(DeclareVar):
+class TipoInt(Tipo):
+  def accept(self, Visitor):
+    Visitor.visitTipoInt(self)
+
+class TipoVarChar(Tipo):
+  def accept(self, Visitor):
+    Visitor.visitTipoVarchar(self)
+  def __init__(self, numInteiro):
+      self.numInteiro = numInteiro
+
+class TipoNumeric(Tipo):  
+  def accept(self, Visitor):
+    Visitor.visitTipoNumeric(self)
+
+class TipoDateTime(Tipo):
+  def accept(self, Visitor):
+    Visitor.visitTipoDateTime(self)
+
+class TipoNumFloat(Tipo):
+  def accept(self, Visitor):
+    Visitor.visitTipoNumFloat(self)
+   
+class DeclareVar(Comando):
     def __init__(self, listtypedid):
         self.listtypedid = listtypedid
     def accept(self, Visitor):
        Visitor.visitDeclareVar(self)
 
-class Deallocate(Deallocate):
+class Deallocate(Comando):
     def __init__(self, ID):
         self.ID = ID
     def accept(self, Visitor):
        Visitor.visitDeallocate(self)
 
-class While(While):
+class While(Comando):
     def __init__(self, ID, comandos):
         self.ID = ID
         self.comandos = comandos
     def accept(self, Visitor):
        Visitor.visitWhile(self)
+
+class Begin(Comando):
+    def __init__(self, comandos):
+        self.comandos = comandos
+    def accept(self, Visitor):
+       Visitor.visitBegin(self)
+       
+class BeginSet(Comando):
+    def __init__(self,set, comandos):
+        self.set = set
+        self.comandos = comandos
+    def accept(self, Visitor):
+       Visitor.visitBeginSet(self)
 
 class Procedure(Procedure):
     def __init__(self, ID, begin, comandos, close, deallocate):
@@ -197,13 +175,13 @@ class Procedure(Procedure):
     def accept(self, Visitor):
        Visitor.visitProcedure(self)
 
-class Open(Open):
+class Open(Comando):
     def __init__(self, ID):
         self.ID = ID
     def accept(self, Visitor):
        Visitor.visitOpen(self)
 
-class Close(Close):
+class Close(Comando):
     def __init__(self, ID):
         self.ID = ID
     def accept(self, Visitor):
@@ -231,4 +209,139 @@ class Exec(Exec):
     def accept(self, Visitor):
        Visitor.visitExec(self)
 
+class NumFloat(Literal):
+    def __init__(self, numfloat):
+        self.numfloat = numfloat
+    def accept(self, Visitor):
+       Visitor.visitNumFloat(self)
 
+class NumInteiro(Literal):
+    def __init__(self, numInteiro):
+     self.numInteiro = numInteiro
+    def accept(self, Visitor):
+     Visitor.visitNumInteiro(self) 
+
+class String(Literal):
+    def __init__(self, String):
+      self.String = String
+    def accept(self, Visitor):
+      Visitor.visitString(self) 
+
+class SufixoNotNull(Sufixo):
+  def accept(self, Visitor):
+    Visitor.visitSufixoNotNull(self)
+
+class SufixoNull(Sufixo):
+  def accept(self, Visitor):
+    Visitor.visitSufixoNull(self)
+
+class SufixoNotNullPrimaryKey(Sufixo):
+  def accept(self, Visitor):
+    Visitor.visitSufixoNotNullPrimaryKey(self)
+
+class If(Comando):
+    def __init__(self, ID, literal, begin, comando):
+        self.ID = ID
+        self.literal = literal
+        self.begin = begin
+        self.comando = comando
+    def accept(self, Visitor):
+       Visitor.visitIf(self)
+
+class IfElif(Comando):
+    def __init__(self, IDIf, literalIf, beginIf, comandoIf, IDElif, literalElif, beginElif, comandoElif):
+        self.IDIf = IDIf
+        self.literalIf = literalIf
+        self.beginIf = beginIf
+        self.comandoIf = comandoIf
+        self.IDElif = IDElif
+        self.literalElif = literalElif
+        self.beginElif = beginElif
+        self.comandoElif = comandoElif
+    def accept(self, Visitor):
+       Visitor.visitElif(self)
+
+class IfElse(Comando):
+    def __init__(self, IDIf, literalIf, beginIf, comandoIf, beginElse, comandoElse):
+        self.IDIf = IDIf
+        self.literalIf = literalIf
+        self.beginIf = beginIf
+        self.comandoIf = comandoIf
+        self.beginElse = beginElse
+        self.comandoElse = comandoElse
+    def accept(self, Visitor):
+       Visitor.visitIfElse(self)
+
+class Comandos(Comandos):
+    def __init__(self, comando):
+        self.comando = comando
+    def accept(self, Visitor):
+       Visitor.visitComandos(self)
+
+class ComandosComando(Comandos):
+    def __init__(self,comando, comandos):
+        self.comando = comando
+        self.comandos = comandos
+    def accept(self, Visitor):
+       Visitor.visitComandosComandos(self)
+
+class ComposicaoDadosSemTipo(Comandos):
+    def __init__(self, ID, ComposicaoDadosSemTipo):
+        self.ID = ID
+        self.ComposicaoDadosSemTipo = ComposicaoDadosSemTipo
+    def accept(self, Visitor):
+       Visitor.visitComposicaoDadosSemTipo(self)
+
+class SelectMul(Comando):
+    def __init__(self, ID):
+        self.ID = ID
+    def accept(self, Visitor):
+        Visitor.visitSelectMul(self)
+  
+class SelectSum(Comando):
+    def __init__(self, ID1, ID2, ID3, ID4):
+        self.ID1 = ID1
+        self.ID2 = ID2
+        self.ID3 = ID3
+        self.ID4 = ID4
+    def accept(self, Visitor):
+        Visitor.visitSelectSum(self)
+
+class SelectTypedId(Comando):
+    def __init__(self, listtypedid, ID):
+        self.listtypedid = listtypedid
+        self.ID = ID
+    def accept(self, Visitor):
+        Visitor.visitSelectTypedId(self)
+
+class ListTypeIdSimples(ListTypeId):
+    def  __init__(self, ID, tipo):
+         self.ID = ID
+         self.tipo = tipo
+    def accept(self, Visitor):
+        Visitor.visitListTypeIdSimples(self)
+      
+class ListTypeIdComposto(ListTypeId):
+    def __init__(self, ID, tipo, listtypeid):
+        self.ID = ID
+        self.tipo = tipo
+        self.listtypedid = listtypeid
+    def accept(self, Visitor):
+        Visitor.visitListTypeIdComposto(self)
+
+class TabelaColunasSimples(TabelaColunas):
+  def __init__(self, ID, tipo, sufixotable):
+      self.ID = ID
+      self.tipo = tipo
+      self.sufixotable = sufixotable
+  def accept(self, Visitor):
+      Visitor.visitTabelaColunasSimples(self)
+
+class TabelaColunasComposta(TabelaColunas):
+  def __init__(self, ID, tipo, sufixotable, tabelacolunas):
+      self.ID = ID
+      self.tipo = tipo
+      self.sufixotable = sufixotable
+      self.tabelacolunas = tabelacolunas
+  def accept(self, Visitor):
+      Visitor.visitTabelaColunasComposta(self)
